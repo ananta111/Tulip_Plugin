@@ -254,12 +254,14 @@ bool HelloWorld::run()
   tlp::Iterator<tlp::node> *itnodes = graph->getNodes();
   while(itnodes->hasNext()){
         const tlp::node &node = itnodes->next();
-        if(dist[node.id]==max)
-          ibHub->setNodeValue(node, 216);
-        else if(dist[node.id]==1)
-          ibHub->setNodeValue(node, -216);
-        else if(dist[node.id]==avg)
-          ibHub->setNodeValue(node, 0);
+        const int &temp = dist[node.id];
+        //if(dist[node.id]==max)
+        //  ibHub->setNodeValue(node, 216);
+        //else if(dist[node.id]==1)
+        //  ibHub->setNodeValue(node, -216);
+        //else if(dist[node.id]==avg)
+        //  ibHub->setNodeValue(node, 0);
+        ibHub->setNodeValue(node, temp);
   }
 
   if(pluginProgress)
