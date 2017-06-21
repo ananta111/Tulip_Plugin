@@ -266,7 +266,7 @@ bool HelloWorld::run()
 
   if(pluginProgress)
   {
-    pluginProgress->setComment("Calculating Route oversubscription complete.");
+    pluginProgress->setComment("Dijkstra's algorithm implementation complete.");
     pluginProgress->progress(STEPS, STEPS);
   }
 
