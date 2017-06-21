@@ -19,6 +19,7 @@
  */
 
 #include<fstream>
+#include <algorithm>
 #include "helloworld.h"
 #include "fabric.h"
 #include "ibautils/ib_fabric.h"
@@ -71,7 +72,7 @@ bool HelloWorld::run()
 {
   assert(graph);
 
-  static const size_t STEPS = 5;
+  static const size_t STEPS = 6;
   if(pluginProgress)
   {
     pluginProgress->showPreview(false);
@@ -232,16 +233,34 @@ bool HelloWorld::run()
     }
   }
   
-  //Print Distance
+  int min = 1;
+  int max = 1;
+  int avg = 1;
+  //Print Distance and find out the max and min numbers
   for(int i = 0; i<v; i++){
+    std::max(max,dist[i]);
     cout<<i<<": "<<dist[i]<<endl;
   }
-
+  avg = (min+max)/2;
   
-        
+  tlp::IntegerProperty * ibHub = graph->getProperty<tlp::IntegerProperty>("ibHub");
+  assert(ibHub);
+  if(pluginProgress)
+  {
+    pluginProgress->setComment("Show the max min average steps");
+    pluginProgress->progress(5, STEPS);
+  }
   
-  
-  
+  tlp::Iterator<tlp::node> *itnodes = graph->getNodes();
+  while(itnodes->hasNext()){
+        const tlp::node &node = itnodes->next();
+        if(dist[node.id]==max)
+          ibHub->setNodeValue(node, 216);
+        else if(dist[node.id]==1)
+          ibHub->setNodeValue(node, -216);
+        else if(dist[node.id]==avg)
+          ibHub->setNodeValue(node, 0);
+  }
 
   if(pluginProgress)
   {
